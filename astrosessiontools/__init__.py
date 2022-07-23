@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import datetime
 
 from . import utils
 from . import mappings
@@ -15,6 +16,7 @@ class Session:
         self.directory = directory
         self.name = name
         self.location = location
+        self.date = None
         self.image_groups = []
         self.filepath = os.path.join(self.directory, "session_data.json")
 
@@ -44,10 +46,18 @@ class Session:
                     self.process_image(filepath)
 
     def process_image(self, filepath):
-        """Process the image and adds it to an image group"""
+        """Process the image metadata and adds it to an image group"""
         print(f"Processing file {filepath}")
         image = ImageFile(self, filepath)
         image.analyze_image()
+        # Update session date according image timestamp
+        date = datetime.datetime.fromisoformat(image.timestamp)
+        if date:
+            if self.date:
+                if date > self.date:
+                    self.date = date
+            else:
+                self.date = date
         # Add image to the correct image group
         image_group = self.get_image_group(image.get_group_data())
         image_group.add_image(image)
@@ -71,6 +81,7 @@ class Session:
         data = {
             "name": self.name,
             "location": self.location,
+            "date": self.date.date().isoformat(),
             "image_groups": image_groups,
         }
         with open(self.filepath, "w", encoding="utf-8") as file_pointer:
