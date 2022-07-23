@@ -12,14 +12,6 @@ class Session:
     """Session class"""
 
     def __init__(self, directory, name, location):
-        """
-        Session class
-        TODO:
-            Location information
-            Weather
-            Moon phase
-            Object information
-        """
         self.directory = directory
         self.name = name
         self.location = location
