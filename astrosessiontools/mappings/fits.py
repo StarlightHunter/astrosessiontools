@@ -1,4 +1,4 @@
-"""Metadata mappings for different image formats"""
+"""Metadata mappings for FITS format"""
 
 METADATA_MAPPINGS_FITS = {
     # Grouping fields
@@ -38,10 +38,10 @@ METADATA_MAPPINGS_FITS = {
         "fields": ["focallen"],
     },
     "aperture": {
-        "fields": [""],
+        "fields": [],
     },
     "fnumber": {
-        "fields": [""],
+        "fields": [],
     },
     "object": {
         "fields": ["object"],
@@ -73,8 +73,4 @@ METADATA_MAPPINGS_FITS = {
     "dec": {
         "fields": ["dec"],
     },
-}
-
-METADATA_MAPPINGS = {
-    "image/fits": METADATA_MAPPINGS_FITS,
 }
