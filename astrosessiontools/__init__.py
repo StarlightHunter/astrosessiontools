@@ -17,6 +17,7 @@ class Session:
         self.description = description
         self.location = {"name": location}
         self.date = None
+        self.object = None
         self.image_groups = []
         self.filepath = os.path.join(self.directory, "session_data.json")
         # Options
@@ -65,15 +66,23 @@ class Session:
         image = ImageFile(self, filepath)
         image.analyze_image()
         # Update session date according image timestamp
-        date = datetime.datetime.fromisoformat(
-            image.timestamp  # pylint: disable=no-member
-        )
-        if date:
+        if image.timestamp:
+            date = datetime.datetime.fromisoformat(
+                image.timestamp  # pylint: disable=no-member
+            )
             if self.date:
                 if date > self.date:
                     self.date = date
             else:
                 self.date = date
+        # Update session object according to image object
+        if image.object:
+            if not self.object:
+                self.object = image.object
+            else:
+                if self.object != image.object:
+                    print(f"Warning: object {image.object} read from image {filepath} differs from {self.object}")
+                    print(f"    Session directories should only contain files for the same object.")
         # Add image to the correct image group
         image_group = self.get_image_group(image.get_group_data())
         image_group.add_image(image)
@@ -98,6 +107,7 @@ class Session:
             "description": self.description,
             "location": self.location,
             "date": self.date.date().isoformat(),
+            "object": self.object,
             "image_groups": image_groups,
         }
         with open(self.filepath, "w", encoding="utf-8") as file_pointer:

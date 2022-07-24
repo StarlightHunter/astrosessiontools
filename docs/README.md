@@ -29,6 +29,7 @@ A file named session_data.json will be written in the session directory.
     "name": "Home"
   },
   "date": "2022-05-28",
+  "object": "M16",
   "image_groups": [
     {
       "file_type": "image/fits",
@@ -52,7 +53,7 @@ A file named session_data.json will be written in the session directory.
           "focal_length": 129,
           "aperture": null,
           "fnumber": null,
-          "object": null,
+          "object": "M16",
           "width": 5202,
           "height": 3465,
           "bits": 16,
@@ -125,6 +126,7 @@ For example:
     "maps_url": "https://goo.gl/maps/ZDDTBbxJ76eDojEp8"
   },
   "date": "2022-05-28",
+  "object": "M16",
   "image_groups": [
     {
       "file_type": "image/fits",
@@ -148,7 +150,7 @@ For example:
           "focal_length": 129,
           "aperture": null,
           "fnumber": null,
-          "object": null,
+          "object": "M16",
           "width": 5202,
           "height": 3465,
           "bits": 16,
