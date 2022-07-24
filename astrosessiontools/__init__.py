@@ -52,7 +52,7 @@ class Session:
         for current_dir, _, file_list in os.walk(self.directory):
             for filename in file_list:
                 extension = os.path.splitext(filename)[-1][1:].lower()
-                if extension in ["fit", "fits"]:
+                if extension in ["fit", "fits", "cr2"]:
                     rel_dir = os.path.relpath(current_dir, self.directory)
                     if rel_dir != ".":
                         filepath = os.path.join(rel_dir, filename)
