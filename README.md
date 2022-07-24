@@ -13,7 +13,7 @@ the image files.
 
 ### Usage
 
-```
+```bash
 $ ./session_tools.py  path_to_session_directory/ "Session description" "Session location"
 ```
 
@@ -23,9 +23,19 @@ A file named session_data.json will be written in the session directory.
 
 ```json
 {
-  "description": "Session description",
-  "location": "Session location",
-  "date": null,
+{
+  "description": "My session",
+  "location": {
+    "name": "Location B",
+    "desc": "Llanos de la Pez",
+    "gps": "27\u00b058'33.4\"N 15\u00b034'55.1\"W",
+    "gps_decimal": [
+      27.975933,
+      -15.581974
+    ],
+    "maps_url": "https://goo.gl/maps/ZDDTBbxJ76eDojEp8"
+  },
+  "date": "2022-05-28",
   "image_groups": [
     {
       "file_type": "image/fits",
@@ -47,6 +57,8 @@ A file named session_data.json will be written in the session directory.
           "camera": "Canon EOS 4000D",
           "telescope": "EQMod Mount",
           "focal_length": 129,
+          "aperture": null,
+          "fnumber": null,
           "object": null,
           "width": 5202,
           "height": 3465,
@@ -57,11 +69,9 @@ A file named session_data.json will be written in the session directory.
           "bin_height": 1,
           "ra": 275.3055,
           "dec": -14.7023
-        },
-        ...
+        }
       ]
-    },
-    ...
+    }
   ]
 }
 ```

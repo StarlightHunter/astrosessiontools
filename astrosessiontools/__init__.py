@@ -15,10 +15,22 @@ class Session:
     def __init__(self, directory, description, location):
         self.directory = directory
         self.description = description
-        self.location = location
+        self.location = {"name": location}
         self.date = None
         self.image_groups = []
         self.filepath = os.path.join(self.directory, "session_data.json")
+
+    def load_location_data(self, filepath, location):
+        """Load location data for a location from a location data file"""
+        if not os.path.exists(filepath):
+            print(f"Error: Location data file {filepath}")
+            sys.exit(1)
+        with open(filepath, "r", encoding="utf-8") as file_pointer:
+            location_data = json.load(file_pointer)
+            if location in location_data:
+                self.location = location_data[location]
+            else:
+                print("Warning: Specified location not found in location data file")
 
     def analyze_session(self):
         """Analyzes the session directory"""

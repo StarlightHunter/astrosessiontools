@@ -35,6 +35,15 @@ def parse_args():
         help="astrophotography session location",
     )
 
+    parser.add_argument(
+        "-l",
+        "--locdata",
+        default=None,
+        metavar="LOCDATA",
+        type=str,
+        help="location data file",
+    )
+
     return parser.parse_args(sys.argv[1:])
 
 
@@ -42,6 +51,8 @@ if __name__ == "__main__":
     args = parse_args()
 
     session = Session(args.directory, args.description, args.location)
-
+    # Load location data if specified
+    if args.locdata:
+        session.load_location_data(args.locdata, args.location)
     session.analyze_session()
     session.save()
