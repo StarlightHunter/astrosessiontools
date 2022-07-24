@@ -44,6 +44,14 @@ def parse_args():
         help="location data file",
     )
 
+    parser.add_argument(
+        "-f",
+        "--fullmetadata",
+        action="store_true",
+        help="include full metadata for each image",
+    )
+
+
     return parser.parse_args(sys.argv[1:])
 
 
@@ -54,5 +62,8 @@ if __name__ == "__main__":
     # Load location data if specified
     if args.locdata:
         session.load_location_data(args.locdata, args.location)
+    # Set full metadata option
+    session.include_full_metadata = args.fullmetadata
+        
     session.analyze_session()
     session.save()

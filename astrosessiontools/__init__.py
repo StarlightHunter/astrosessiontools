@@ -19,6 +19,8 @@ class Session:
         self.date = None
         self.image_groups = []
         self.filepath = os.path.join(self.directory, "session_data.json")
+        # Options
+        self.include_full_metadata = False
 
     def load_location_data(self, filepath, location):
         """Load location data for a location from a location data file"""
@@ -209,9 +211,10 @@ class ImageFile:
     def serialize(self):
         """Serialize this image"""
         data = {
-            # "metadata": self.full_metadata,
             "path": self.filepath
         }
         for field in self.mapping:
             data[field] = getattr(self, field)
+        if self.session.include_full_metadata:
+            data["full_metadata"] = self.full_metadata
         return data
