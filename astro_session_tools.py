@@ -3,15 +3,45 @@
 Main command line application for astrosessiontools
 """
 import sys
+import argparse
 
 from astrosessiontools import Session
 
-if __name__ == "__main__":
-    session_dir = sys.argv[1]
-    session_name = sys.argv[2]
-    session_location = sys.argv[3]
 
-    session = Session(session_dir, session_name, session_location)
+def parse_args():
+    """Parses command line arguments"""
+    parser = argparse.ArgumentParser(
+        description="Astrophotography session metadata extraction tool"
+    )
+
+    parser.add_argument(
+        "directory",
+        metavar="DIRECTORY",
+        type=str,
+        help="astrophotography session directory",
+    )
+
+    parser.add_argument(
+        "description",
+        metavar="DESCRIPTION",
+        type=str,
+        help="description for this astrophotography session",
+    )
+
+    parser.add_argument(
+        "location",
+        metavar="LOCATION",
+        type=str,
+        help="astrophotography session location",
+    )
+
+    return parser.parse_args(sys.argv[1:])
+
+
+if __name__ == "__main__":
+    args = parse_args()
+
+    session = Session(args.directory, args.description, args.location)
 
     session.analyze_session()
     session.save()

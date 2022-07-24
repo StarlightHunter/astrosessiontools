@@ -12,9 +12,9 @@ from . import mappings
 class Session:
     """Session class"""
 
-    def __init__(self, directory, name, location):
+    def __init__(self, directory, description, location):
         self.directory = directory
-        self.name = name
+        self.description = description
         self.location = location
         self.date = None
         self.image_groups = []
@@ -51,7 +51,9 @@ class Session:
         image = ImageFile(self, filepath)
         image.analyze_image()
         # Update session date according image timestamp
-        date = datetime.datetime.fromisoformat(image.timestamp)
+        date = datetime.datetime.fromisoformat(
+            image.timestamp  # pylint: disable=no-member
+        )
         if date:
             if self.date:
                 if date > self.date:
@@ -79,7 +81,7 @@ class Session:
         for image_group in self.image_groups:
             image_groups.append(image_group.serialize())
         data = {
-            "name": self.name,
+            "description": self.description,
             "location": self.location,
             "date": self.date.date().isoformat(),
             "image_groups": image_groups,

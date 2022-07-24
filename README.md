@@ -14,7 +14,7 @@ the image files.
 ### Usage
 
 ```
-$ ./session_tools.py  path_to_session_directory/ "Session name" "Session location"
+$ ./session_tools.py  path_to_session_directory/ "Session description" "Session location"
 ```
 
 ## Example output file
@@ -23,7 +23,7 @@ A file named session_data.json will be written in the session directory.
 
 ```json
 {
-  "name": "Session name",
+  "description": "Session description",
   "location": "Session location",
   "date": null,
   "image_groups": [
