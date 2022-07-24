@@ -1,4 +1,75 @@
-# Location data files
+# Astro session tools
+
+astrosessiontools is a command line application that analyzes the contents of a
+given folder and reads the images metadata to create a JSON
+file with that metadata in an ordered way to be consumed by other apps.
+
+## How to use it?
+
+### Dependencies
+
+astrosessiontools depends on the ***exiftool*** command to extract the metadata from
+the image files.
+
+### Usage
+
+```bash
+$ ./session_tools.py  path_to_session_directory/ "Session description" "Session location"
+```
+
+## Example output file
+
+A file named session_data.json will be written in the session directory.
+
+```json
+{
+{
+  "description": "My session",
+  "location": {
+    "name": "Home"
+  },
+  "date": "2022-05-28",
+  "image_groups": [
+    {
+      "file_type": "image/fits",
+      "iso_gain": 1600,
+      "exposure": 60.0,
+      "temperature": "20.",
+      "filter": null,
+      "image_type": "Light",
+      "image_files": [
+        {
+          "path": "test_image_01.fit",
+          "file_type": "image/fits",
+          "iso_gain": 1600,
+          "exposure": 60.0,
+          "temperature": "20.",
+          "filter": null,
+          "image_type": "Light",
+          "timestamp": "2022-05-28T01:06:49.078653",
+          "camera": "Canon EOS 4000D",
+          "telescope": "EQMod Mount",
+          "focal_length": 129,
+          "aperture": null,
+          "fnumber": null,
+          "object": null,
+          "width": 5202,
+          "height": 3465,
+          "bits": 16,
+          "pixel_width": 4.28999996185303,
+          "pixel_height": 4.28999996185303,
+          "bin_width": 1,
+          "bin_height": 1,
+          "ra": 275.3055,
+          "dec": -14.7023
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Location data loading
 
 You can specify a location data file to use that information
 as part of the final session information.
@@ -94,7 +165,7 @@ For example:
 }
 ```
 
-## Location file format
+### Location file format
 
 The only mandatory field is the ***name*** field. The rest of
 the information is optional.
