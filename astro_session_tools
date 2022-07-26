@@ -2,8 +2,9 @@
 """
 Main command line application for astrosessiontools
 """
-import sys
+
 import argparse
+import sys
 
 from astrosessiontools import Session
 
