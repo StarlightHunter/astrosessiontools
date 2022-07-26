@@ -1,4 +1,4 @@
-"""Metadata mappings for FITS format"""
+"""Metadata mappings for FITS format."""
 
 METADATA_MAPPINGS_FITS = {
     # Grouping fields

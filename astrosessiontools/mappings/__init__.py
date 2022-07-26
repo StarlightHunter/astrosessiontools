@@ -1,7 +1,7 @@
-"""Metadata mappings module"""
+"""Metadata mappings module."""
 
-from .fits import METADATA_MAPPINGS_FITS
 from .cr2 import METADATA_MAPPINGS_CR2
+from .fits import METADATA_MAPPINGS_FITS
 
 METADATA_MAPPINGS = {
     "image/fits": METADATA_MAPPINGS_FITS,

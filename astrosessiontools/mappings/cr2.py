@@ -1,17 +1,20 @@
-"""Metadata mappings for Canon RAW CR2 format"""
+"""Metadata mappings for Canon RAW CR2 format."""
+
 
 # Data formatters for Canon CR2
 
 def temperature_formatter(value):
-    """Formats temperature data from "float C" to a real float"""
+    """Format temperature data from "float C" to a real float."""
     return float(value[:-2])
 
+
 def focallength_formatter(value):
-    """Formats focal length data from "float mm" to a real float"""
-    return(float(value[:-3]))
+    """Format focal length data from "float mm" to a real float."""
+    return float(value[:-3])
+
 
 def timestamp_formatter(value):
-    """Formats date and time from "YYYY:MM:DD HH:MM:SS" to ISO format"""
+    """Format date and time from "YYYY:MM:DD HH:MM:SS" to ISO format."""
     date, time = value.split()
     return "T".join([
         date.replace(":", "-"),

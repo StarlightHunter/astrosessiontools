@@ -1,18 +1,18 @@
-"""astrosessiontools module"""
+"""astrosessiontools module."""
 
+import datetime
+import json
 import os
 import sys
-import json
-import datetime
 
-from . import utils
-from . import mappings
+from . import mappings, utils
 
 
-class Session:
-    """Session class"""
+class Session:  # pylint: disable=too-many-instance-attributes
+    """Session class."""
 
     def __init__(self, directory, description, location):
+        """Session class initialization."""
         self.directory = directory
         self.description = description
         self.location = {"name": location}
@@ -24,7 +24,7 @@ class Session:
         self.include_full_metadata = False
 
     def load_location_data(self, filepath, location):
-        """Load location data for a location from a location data file"""
+        """Load location data for a location from a location data file."""
         if not os.path.exists(filepath):
             print(f"Error: Location data file {filepath}")
             sys.exit(1)
@@ -36,7 +36,7 @@ class Session:
                 print("Warning: Specified location not found in location data file")
 
     def analyze_session(self):
-        """Analyzes the session directory"""
+        """Analyzes the session directory."""
         # Check session dir
         if not os.path.isdir(self.directory):
             print(f"Error: Directory {self.directory} does not exist")
@@ -61,14 +61,15 @@ class Session:
                     self.process_image(filepath)
 
     def process_image(self, filepath):
-        """Process the image metadata and adds it to an image group"""
+        """Process the image metadata and adds it to an image group."""
         print(f"Processing file {filepath}")
         image = ImageFile(self, filepath)
         image.analyze_image()
         # Update session date according image timestamp
+        # pylint: disable=no-member
         if image.timestamp:
             date = datetime.datetime.fromisoformat(
-                image.timestamp  # pylint: disable=no-member
+                image.timestamp
             )
             if self.date:
                 if date > self.date:
@@ -81,14 +82,16 @@ class Session:
                 self.object = image.object
             else:
                 if self.object != image.object:
-                    print(f"Warning: object {image.object} read from image {filepath} differs from {self.object}")
-                    print(f"    Session directories should only contain files for the same object.")
+                    print(f"Warning: object {image.object} read from image {filepath} differs \
+                        from {self.object}")
+                    print("    Session directories should only contain files for the same object.")
+        # pylint: enable=no-member
         # Add image to the correct image group
         image_group = self.get_image_group(image.get_group_data())
         image_group.add_image(image)
 
     def get_image_group(self, image_group_data):
-        """Gets an image group for given group data"""
+        """Get an image group for given group data."""
         # Find an image group with all this specific fields
         for image_group in self.image_groups:
             if image_group.get_group_data() == image_group_data:
@@ -99,7 +102,7 @@ class Session:
         return image_group
 
     def save(self):
-        """Dumps session data to the session_data.json file"""
+        """Dump session data to the session_data.json file."""
         image_groups = []
         for image_group in self.image_groups:
             image_groups.append(image_group.serialize())
@@ -115,9 +118,7 @@ class Session:
 
 
 class ImageGroup:
-    """
-    Image group class
-    """
+    """Image group class."""
 
     def __init__(
         self,
@@ -128,6 +129,7 @@ class ImageGroup:
         filter,  # pylint: disable=redefined-builtin
         image_type,
     ):  # pylint: disable=too-many-arguments
+        """Image group initialization."""
         self.file_type = file_type
         self.iso_gain = iso_gain
         self.exposure = exposure
@@ -137,11 +139,11 @@ class ImageGroup:
         self.image_files = []
 
     def add_image(self, image):
-        """Adds an image to this image group"""
+        """Add an image to this image group."""
         self.image_files.append(image)
 
     def serialize(self):
-        """Serialize this image group"""
+        """Serialize this image group."""
         image_files = []
         for image in self.image_files:
             image_files.append(image.serialize())
@@ -156,7 +158,7 @@ class ImageGroup:
         }
 
     def get_group_data(self):
-        """Gets the image group grouping data"""
+        """Get the image group grouping data."""
         return [
             self.file_type,
             self.iso_gain,
@@ -168,11 +170,10 @@ class ImageGroup:
 
 
 class ImageFile:
-    """
-    Image file class
-    """
+    """Image file class."""
 
     def __init__(self, session, filepath):
+        """Image file initialization."""
         self.session = session
         self.filepath = filepath
         self.full_metadata = None
@@ -180,7 +181,7 @@ class ImageFile:
         self.full_path = os.path.join(session.directory, filepath)
 
     def analyze_image(self):
-        """Analyze this image to extract metadata"""
+        """Analyze this image to extract metadata."""
         # Extract metadata from file
         self.full_metadata = utils.get_exif_info(self.full_path)
         # Check file type
@@ -191,7 +192,7 @@ class ImageFile:
         self.load_metadata_fields()
 
     def load_metadata_fields(self):
-        """Load metadata fields for the image according to this file type metadata mapping"""
+        """Load metadata fields for the image according to this file type metadata mapping."""
         for field, field_info in self.mapping.items():
             # Set default value for field
             default_value = field_info.get("default", None)
@@ -206,7 +207,7 @@ class ImageFile:
                     break
 
     def get_group_data(self):
-        """Get the image grouping data for this image"""
+        """Get the image grouping data for this image."""
         return [
             # pylint: disable=no-member
             self.file_type,
@@ -219,7 +220,7 @@ class ImageFile:
         ]
 
     def serialize(self):
-        """Serialize this image"""
+        """Serialize this image."""
         data = {
             "path": self.filepath
         }
