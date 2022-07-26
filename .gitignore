@@ -1,2 +1,4 @@
 __pycache__/
 local_test_data/
+.tox
+*.egg-info/
