@@ -8,6 +8,7 @@ import sys
 
 from astrosessiontools import Session
 
+print("OH  YEAH!")
 
 def parse_args():
     """Parses command line arguments"""
